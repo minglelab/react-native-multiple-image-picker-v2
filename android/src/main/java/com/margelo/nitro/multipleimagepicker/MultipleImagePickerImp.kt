@@ -76,6 +76,22 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
 
         val chooseMode = getChooseMode(config.mediaType)
 
+        if (Build.VERSION.SDK_INT >= 35) { 
+            val navBarHeightRes = activity?.resources?.getIdentifier("navigation_bar_height", "dimen", "android")
+            val navBarHeight = navBarHeightRes?.let { activity.resources.getDimensionPixelSize(it) } ?: 0
+
+            activity?.window?.decorView?.findViewById<View>(android.R.id.content)?.let { contentView ->
+                if (contentView is FrameLayout) {
+                    contentView.setPadding(
+                        contentView.paddingLeft,
+                        contentView.paddingTop,
+                        contentView.paddingRight,
+                        navBarHeight
+                    )
+                }
+            }
+        }
+        
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
         val isPreview = config.isPreview ?: true
@@ -87,6 +103,7 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         val selectMode = if (isMultiple) SelectModeConfig.MULTIPLE else SelectModeConfig.SINGLE
 
         val isCrop = config.crop != null
+
 
         PictureSelector.create(activity)
             .openGallery(chooseMode)
