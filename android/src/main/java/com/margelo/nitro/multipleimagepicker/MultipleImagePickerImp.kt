@@ -524,10 +524,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         bottomBar.bottomOriginalTextColor = foreground
         bottomBar.bottomPreviewNarBarBackgroundColor = background
 
-        mainStyle.isPreviewSelectRelativeBottom = false
-        mainStyle.isCompleteSelectRelativeTop = false
-        mainStyle.isAdapterItemIncludeEdge = true       
-
         mainStyle.mainListBackgroundColor = foreground
         mainStyle.selectNormalTextColor = foreground
         mainStyle.isDarkStatusBarBlack = !isDark
