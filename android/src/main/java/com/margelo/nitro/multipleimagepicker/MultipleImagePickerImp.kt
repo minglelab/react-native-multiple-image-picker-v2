@@ -39,9 +39,6 @@ import com.yalantis.ucrop.model.AspectRatio
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
-import android.os.Build
-import android.view.View
-import android.widget.FrameLayout
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
@@ -77,22 +74,6 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         handleSelectedAssets(config)
 
         val chooseMode = getChooseMode(config.mediaType)
-
-        if (Build.VERSION.SDK_INT >= 35) { 
-            val navBarHeightRes = activity?.resources?.getIdentifier("navigation_bar_height", "dimen", "android")
-            val navBarHeight = navBarHeightRes?.let { activity.resources.getDimensionPixelSize(it) } ?: 0
-
-            activity?.window?.decorView?.findViewById<View>(android.R.id.content)?.let { contentView ->
-                if (contentView is FrameLayout) {
-                    contentView.setPadding(
-                        contentView.paddingLeft,
-                        contentView.paddingTop,
-                        contentView.paddingRight,
-                        navBarHeight
-                    )
-                }
-            }
-        }
         
         val maxSelect = config.maxSelect?.toInt() ?: 20
         val maxVideo = config.maxVideo?.toInt() ?: 20
@@ -572,6 +553,13 @@ class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
         mainStyle.isSelectNumberStyle = isNumber
         mainStyle.previewSelectBackground = selectType
         mainStyle.isPreviewSelectNumberStyle = isNumber
+
+        if (Build.VERSION.SDK_INT >= 34) {
+            val navbarHeightRes = appContext.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            val navbarHeight = if (navbarHeightRes > 0) appContext.resources.getDimensionPixelSize(navbarHeightRes) else 0
+            mainStyle.bottomBarHeight = navbarHeight
+        }
+        
 
         if (config.camera != null) {
             // hide title camera
