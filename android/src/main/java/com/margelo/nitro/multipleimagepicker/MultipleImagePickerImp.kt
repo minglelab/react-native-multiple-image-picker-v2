@@ -39,7 +39,9 @@ import com.yalantis.ucrop.model.AspectRatio
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
-
+import android.os.Build
+import android.view.View
+import android.widget.FrameLayout
 
 class MultipleImagePickerImp(reactContext: ReactApplicationContext?) :
     ReactContextBaseJavaModule(reactContext), IApp {
